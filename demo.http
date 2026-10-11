@@ -1,0 +1,141 @@
+# Rider HTTP Client. Run top to bottom; responses save generated IDs.
+# Use scripts/demo.ps1 for automatically generated dates and the full verification suite.
+@tournament = http://localhost:5001
+@participant = http://localhost:5002
+@registration = http://localhost:5003
+@start = 2030-05-01T10:00:00Z
+@end = 2030-05-01T12:00:00Z
+
+### Create participant 1
+POST {{participant}}/api/participants
+Content-Type: application/json
+
+{"name":"Alex Demo"}
+
+> {% client.global.set("p1", response.body.id); %}
+
+### Create participant 2
+POST {{participant}}/api/participants
+Content-Type: application/json
+
+{"name":"Boris Demo"}
+
+> {% client.global.set("p2", response.body.id); %}
+
+### Create participant 3
+POST {{participant}}/api/participants
+Content-Type: application/json
+
+{"name":"Chris Demo"}
+
+> {% client.global.set("p3", response.body.id); %}
+
+### Create tournament: future dates, default Upcoming
+POST {{tournament}}/api/tournaments
+Content-Type: application/json
+
+{
+  "name":"AUBG Basketball Demo",
+  "type":"Basketball",
+  "description":"COS 3123 presentation tournament",
+  "startDate":"{{start}}",
+  "endDate":"{{end}}",
+  "location":"AUBG Gym",
+  "capacity":3,
+  "firstPrize":100,
+  "secondPrize":50,
+  "thirdPrize":25
+}
+
+> {% client.global.set("t1", response.body.id); %}
+
+### Upcoming list
+GET {{tournament}}/api/tournaments?status=Upcoming
+
+### Register first participant: 201
+POST {{registration}}/api/registrations
+Content-Type: application/json
+
+{"tournamentId":{{t1}},"participantId":{{p1}}}
+
+### Duplicate: 409
+POST {{registration}}/api/registrations
+Content-Type: application/json
+
+{"tournamentId":{{t1}},"participantId":{{p1}}}
+
+### Register second
+POST {{registration}}/api/registrations
+Content-Type: application/json
+
+{"tournamentId":{{t1}},"participantId":{{p2}}}
+
+### Register third
+POST {{registration}}/api/registrations
+Content-Type: application/json
+
+{"tournamentId":{{t1}},"participantId":{{p3}}}
+
+### Show participants and participation counts
+GET {{tournament}}/api/tournaments/{{t1}}/participants
+
+### Deletion with registrations is forbidden: 409
+DELETE {{tournament}}/api/tournaments/{{t1}}
+
+### Create overlapping football tournament
+POST {{tournament}}/api/tournaments
+Content-Type: application/json
+
+{
+  "name":"AUBG Football Overlap Demo",
+  "type":"Football",
+  "description":"Same time as basketball",
+  "startDate":"{{start}}",
+  "endDate":"{{end}}",
+  "location":"AUBG Field",
+  "capacity":5,
+  "firstPrize":100,
+  "secondPrize":50,
+  "thirdPrize":25
+}
+
+> {% client.global.set("t2", response.body.id); %}
+
+### Overlap signup rejected: 409
+POST {{registration}}/api/registrations
+Content-Type: application/json
+
+{"tournamentId":{{t2}},"participantId":{{p1}}}
+
+### Cannot finish before submitting winners: 409
+POST {{tournament}}/api/tournaments/{{t1}}/finish
+
+### Submit winners first
+PUT {{tournament}}/api/tournaments/{{t1}}/winners
+Content-Type: application/json
+
+{
+  "winners":[
+    {"participantId":{{p1}},"place":1,"points":30},
+    {"participantId":{{p2}},"place":2,"points":20},
+    {"participantId":{{p3}},"place":3,"points":10}
+  ]
+}
+
+### Finish: 200, status Finished
+POST {{tournament}}/api/tournaments/{{t1}}/finish
+
+### Official winners, points and USD prizes
+GET {{tournament}}/api/tournaments/{{t1}}/winners
+
+### Participant finished count = 1
+GET {{participant}}/api/participants/{{p1}}/statistics
+
+### Finished deletion rejected: 409
+DELETE {{tournament}}/api/tournaments/{{t1}}
+
+### Cancel overlapping football
+POST {{tournament}}/api/tournaments/{{t2}}/cancel
+
+### History
+GET {{registration}}/api/registrations/participant/{{p1}}

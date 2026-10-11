@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS><DockerfileContext>../../..</DockerfileContext>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="10.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.14" PrivateAssets="all" />
+    <ProjectReference Include="../SportTournaments.Tournament/SportTournaments.Tournament.csproj" />
+    <ProjectReference Include="../SportTournaments.Tournament.Domain/SportTournaments.Tournament.Domain.csproj" />
+  </ItemGroup>
+</Project>

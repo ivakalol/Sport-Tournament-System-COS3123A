@@ -1,0 +1,407 @@
+﻿{
+    "TestedAtUtc":  "2026-10-11T20:51:53.5488365+00:00",
+    "Passed":  67,
+    "Failed":  0,
+    "FailureTest":  false,
+    "PersistenceTest":  false,
+    "DemoIds":  {
+                    "finishedTournament":  16,
+                    "upcomingTournament":  17,
+                    "participant":  16
+                },
+    "Checks":  [
+                   {
+                       "Check":  "Health 5001",
+                       "Method":  "GET",
+                       "Path":  "/health",
+                       "Status":  200
+                   },
+                   {
+                       "Check":  "Swagger 5001",
+                       "Method":  "GET",
+                       "Path":  "/swagger/v1/swagger.json",
+                       "Status":  200
+                   },
+                   {
+                       "Check":  "Health 5002",
+                       "Method":  "GET",
+                       "Path":  "/health",
+                       "Status":  200
+                   },
+                   {
+                       "Check":  "Swagger 5002",
+                       "Method":  "GET",
+                       "Path":  "/swagger/v1/swagger.json",
+                       "Status":  200
+                   },
+                   {
+                       "Check":  "Health 5003",
+                       "Method":  "GET",
+                       "Path":  "/health",
+                       "Status":  200
+                   },
+                   {
+                       "Check":  "Swagger 5003",
+                       "Method":  "GET",
+                       "Path":  "/swagger/v1/swagger.json",
+                       "Status":  200
+                   },
+                   {
+                       "Check":  "Create participant 1",
+                       "Method":  "POST",
+                       "Path":  "/api/participants",
+                       "Status":  201
+                   },
+                   {
+                       "Check":  "Create participant 2",
+                       "Method":  "POST",
+                       "Path":  "/api/participants",
+                       "Status":  201
+                   },
+                   {
+                       "Check":  "Create participant 3",
+                       "Method":  "POST",
+                       "Path":  "/api/participants",
+                       "Status":  201
+                   },
+                   {
+                       "Check":  "Create participant 4",
+                       "Method":  "POST",
+                       "Path":  "/api/participants",
+                       "Status":  201
+                   },
+                   {
+                       "Check":  "Create participant 5",
+                       "Method":  "POST",
+                       "Path":  "/api/participants",
+                       "Status":  201
+                   },
+                   {
+                       "Check":  "Create basketball",
+                       "Method":  "POST",
+                       "Path":  "/api/tournaments",
+                       "Status":  201
+                   },
+                   {
+                       "Check":  "Create overlapping football",
+                       "Method":  "POST",
+                       "Path":  "/api/tournaments",
+                       "Status":  201
+                   },
+                   {
+                       "Check":  "Create adjacent swimming",
+                       "Method":  "POST",
+                       "Path":  "/api/tournaments",
+                       "Status":  201
+                   },
+                   {
+                       "Check":  "New status is Upcoming",
+                       "Actual":  "Upcoming",
+                       "Expected":  "Upcoming"
+                   },
+                   {
+                       "Check":  "Unknown tournament",
+                       "Method":  "POST",
+                       "Path":  "/api/registrations",
+                       "Status":  404
+                   },
+                   {
+                       "Check":  "Unknown participant",
+                       "Method":  "POST",
+                       "Path":  "/api/registrations",
+                       "Status":  404
+                   },
+                   {
+                       "Check":  "Finish requires winners",
+                       "Method":  "POST",
+                       "Path":  "/api/tournaments/16/finish",
+                       "Status":  409
+                   },
+                   {
+                       "Check":  "Register basketball person 16",
+                       "Method":  "POST",
+                       "Path":  "/api/registrations",
+                       "Status":  201
+                   },
+                   {
+                       "Check":  "Register basketball person 17",
+                       "Method":  "POST",
+                       "Path":  "/api/registrations",
+                       "Status":  201
+                   },
+                   {
+                       "Check":  "Register basketball person 18",
+                       "Method":  "POST",
+                       "Path":  "/api/registrations",
+                       "Status":  201
+                   },
+                   {
+                       "Check":  "Duplicate registration",
+                       "Method":  "POST",
+                       "Path":  "/api/registrations",
+                       "Status":  409
+                   },
+                   {
+                       "Check":  "Capacity enforced",
+                       "Method":  "POST",
+                       "Path":  "/api/registrations",
+                       "Status":  409
+                   },
+                   {
+                       "Check":  "Overlap enforced",
+                       "Method":  "POST",
+                       "Path":  "/api/registrations",
+                       "Status":  409
+                   },
+                   {
+                       "Check":  "Back-to-back accepted",
+                       "Method":  "POST",
+                       "Path":  "/api/registrations",
+                       "Status":  201
+                   },
+                   {
+                       "Check":  "Occupied Upcoming delete forbidden",
+                       "Method":  "DELETE",
+                       "Path":  "/api/tournaments/16",
+                       "Status":  409
+                   },
+                   {
+                       "Check":  "Upcoming participants with counts",
+                       "Method":  "GET",
+                       "Path":  "/api/tournaments/16/participants",
+                       "Status":  200
+                   },
+                   {
+                       "Check":  "Three participants listed",
+                       "Actual":  3,
+                       "Expected":  3
+                   },
+                   {
+                       "Check":  "Update allowed location",
+                       "Method":  "PUT",
+                       "Path":  "/api/tournaments/16",
+                       "Status":  200
+                   },
+                   {
+                       "Check":  "Location persisted",
+                       "Actual":  "Updated AUBG Gym",
+                       "Expected":  "Updated AUBG Gym"
+                   },
+                   {
+                       "Check":  "Cannot reduce capacity below signups",
+                       "Method":  "PUT",
+                       "Path":  "/api/tournaments/16",
+                       "Status":  409
+                   },
+                   {
+                       "Check":  "Occupied schedule is immutable",
+                       "Method":  "PUT",
+                       "Path":  "/api/tournaments/16",
+                       "Status":  409
+                   },
+                   {
+                       "Check":  "End must be after start",
+                       "Method":  "POST",
+                       "Path":  "/api/tournaments",
+                       "Status":  400
+                   },
+                   {
+                       "Check":  "Past start rejected",
+                       "Method":  "POST",
+                       "Path":  "/api/tournaments",
+                       "Status":  400
+                   },
+                   {
+                       "Check":  "Zero capacity rejected",
+                       "Method":  "POST",
+                       "Path":  "/api/tournaments",
+                       "Status":  400
+                   },
+                   {
+                       "Check":  "Negative prize rejected",
+                       "Method":  "POST",
+                       "Path":  "/api/tournaments",
+                       "Status":  400
+                   },
+                   {
+                       "Check":  "Fractional cent rejected",
+                       "Method":  "POST",
+                       "Path":  "/api/tournaments",
+                       "Status":  400
+                   },
+                   {
+                       "Check":  "Unknown sport rejected",
+                       "Method":  "POST",
+                       "Path":  "/api/tournaments",
+                       "Status":  400
+                   },
+                   {
+                       "Check":  "Blank participant rejected",
+                       "Method":  "POST",
+                       "Path":  "/api/participants",
+                       "Status":  400
+                   },
+                   {
+                       "Check":  "Unregistered winner rejected",
+                       "Method":  "PUT",
+                       "Path":  "/api/tournaments/16/winners",
+                       "Status":  409
+                   },
+                   {
+                       "Check":  "Duplicate winner rejected",
+                       "Method":  "PUT",
+                       "Path":  "/api/tournaments/16/winners",
+                       "Status":  400
+                   },
+                   {
+                       "Check":  "Submit winners",
+                       "Method":  "PUT",
+                       "Path":  "/api/tournaments/16/winners",
+                       "Status":  200
+                   },
+                   {
+                       "Check":  "First prize is USD 100",
+                       "Actual":  100.00,
+                       "Expected":  100
+                   },
+                   {
+                       "Check":  "Replace provisional winners atomically",
+                       "Method":  "PUT",
+                       "Path":  "/api/tournaments/16/winners",
+                       "Status":  200
+                   },
+                   {
+                       "Check":  "Finish basketball",
+                       "Method":  "POST",
+                       "Path":  "/api/tournaments/16/finish",
+                       "Status":  200
+                   },
+                   {
+                       "Check":  "Finished status",
+                       "Actual":  "Finished",
+                       "Expected":  "Finished"
+                   },
+                   {
+                       "Check":  "Finished delete forbidden",
+                       "Method":  "DELETE",
+                       "Path":  "/api/tournaments/16",
+                       "Status":  409
+                   },
+                   {
+                       "Check":  "Finished cancel forbidden",
+                       "Method":  "POST",
+                       "Path":  "/api/tournaments/16/cancel",
+                       "Status":  409
+                   },
+                   {
+                       "Check":  "Finished winners immutable",
+                       "Method":  "PUT",
+                       "Path":  "/api/tournaments/16/winners",
+                       "Status":  409
+                   },
+                   {
+                       "Check":  "Finished signup forbidden",
+                       "Method":  "POST",
+                       "Path":  "/api/registrations",
+                       "Status":  409
+                   },
+                   {
+                       "Check":  "Participant statistics",
+                       "Method":  "GET",
+                       "Path":  "/api/participants/16/statistics",
+                       "Status":  200
+                   },
+                   {
+                       "Check":  "Finished participation count",
+                       "Actual":  1,
+                       "Expected":  1
+                   },
+                   {
+                       "Check":  "Upcoming registration count",
+                       "Actual":  1,
+                       "Expected":  1
+                   },
+                   {
+                       "Check":  "Read official winners",
+                       "Method":  "GET",
+                       "Path":  "/api/tournaments/16/winners",
+                       "Status":  200
+                   },
+                   {
+                       "Check":  "Filter Finished basketball",
+                       "Method":  "GET",
+                       "Path":  "/api/tournaments?status=Finished\u0026type=Basketball",
+                       "Status":  200
+                   },
+                   {
+                       "Check":  "Read participant history",
+                       "Method":  "GET",
+                       "Path":  "/api/registrations/participant/16",
+                       "Status":  200
+                   },
+                   {
+                       "Check":  "Cancel swimming",
+                       "Method":  "POST",
+                       "Path":  "/api/tournaments/18/cancel",
+                       "Status":  200
+                   },
+                   {
+                       "Check":  "Canceled signup forbidden",
+                       "Method":  "POST",
+                       "Path":  "/api/registrations",
+                       "Status":  409
+                   },
+                   {
+                       "Check":  "Create replacement swimming",
+                       "Method":  "POST",
+                       "Path":  "/api/tournaments",
+                       "Status":  201
+                   },
+                   {
+                       "Check":  "Cancellation releases schedule",
+                       "Method":  "POST",
+                       "Path":  "/api/registrations",
+                       "Status":  201
+                   },
+                   {
+                       "Check":  "Canceled tournament can be deleted",
+                       "Method":  "DELETE",
+                       "Path":  "/api/tournaments/18",
+                       "Status":  204
+                   },
+                   {
+                       "Check":  "Deleted canceled tournament keeps readable registration",
+                       "Method":  "GET",
+                       "Path":  "/api/registrations/participant/16",
+                       "Status":  200
+                   },
+                   {
+                       "Check":  "Deleted historical entry preserved",
+                       "Actual":  1,
+                       "Expected":  1
+                   },
+                   {
+                       "Check":  "Create empty tournament",
+                       "Method":  "POST",
+                       "Path":  "/api/tournaments",
+                       "Status":  201
+                   },
+                   {
+                       "Check":  "Empty Upcoming can be deleted",
+                       "Method":  "DELETE",
+                       "Path":  "/api/tournaments/20",
+                       "Status":  204
+                   },
+                   {
+                       "Check":  "Create one-slot tournament",
+                       "Method":  "POST",
+                       "Path":  "/api/tournaments",
+                       "Status":  201
+                   },
+                   {
+                       "Check":  "Concurrent signups: one success, one conflict",
+                       "Actual":  "201,409",
+                       "Expected":  "201,409"
+                   }
+               ]
+}
