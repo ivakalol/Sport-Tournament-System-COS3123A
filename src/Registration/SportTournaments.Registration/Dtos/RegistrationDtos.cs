@@ -10,5 +10,7 @@ public class RegistrationRequest
 
 public record RegistrationResponse(int Id, int TournamentId, int ParticipantId,
     string TournamentName, string ParticipantName, DateTime StartDate, DateTime EndDate, DateTime RegisteredAt);
+
 public record RegistrationHistory(RegistrationResponse Registration, string TournamentStatus);
+
 public record ParticipationStatistics(int ParticipationCount, int UpcomingRegistrations, int TotalRegistrations);
